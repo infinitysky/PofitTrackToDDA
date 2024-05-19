@@ -1,0 +1,7 @@
+pyinstaller
+tkinter
+glob
+requests
+urllib
+unrar
+patool
