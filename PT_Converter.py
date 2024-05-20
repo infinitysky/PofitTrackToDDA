@@ -17,44 +17,63 @@ def closesystem():
 def convertToDDAExcel(SourceData,DDATemplate):
     DDAExcelDataFrame = pd.DataFrame()
 
-    #TemplateData=DDATemplate.iloc[0]
+    TemplateData=DDATemplate.iloc[0]
+    TemplateData["XeroTaxCode"]="GST on income"
+    TemplateData["WholesalePrice1(Inc GST)"]=0
+    TemplateData["WholesalePrice2(Inc GST)"]=0
+
 
     z=0
     
-    # for z in range(len(SourceData)):
-    #     print(z ," / ",len(SourceData) ," (2)" )
-    #     if pd.notna(SourceData.iloc[z]["stock_id"]):
-    #         TemplateData=DDATemplate.iloc[0]
-    #         TemplateData["ProductCode(15)"] = SourceData.iloc[z]["stock_id"]
-    #         TemplateData["Description1(100)"] = SourceData.iloc[z]["description"]
-    #         TemplateData["Description2(100)"] = SourceData.iloc[z]["description2"]
-    #         TemplateData["Description3(100)"] = SourceData.iloc[z]["longdesc"]      
-    #         TemplateData["Category(25)"] = SourceData.iloc[z]["cat1"]
-    #         TemplateData["SalesPrice1(Inc GST)"] = SourceData.iloc[z]["sell"]
-    #         TemplateData["SalesPrice2(Inc GST)"] = SourceData.iloc[z]["sell2"]
-    #         TemplateData["SalesPrice3(Inc GST)"] = SourceData.iloc[z]["sell3"]
-    #         TemplateData["SalesPrice4(Inc GST)"] = SourceData.iloc[z]["sell4"]
+    for z in range(len(SourceData)):
+        print(z ," / ",len(SourceData) ," (2)" )
+        if pd.notna(SourceData.iloc[z]["Product Code"]):
+            TemplateData=DDATemplate.iloc[0]
+            TemplateData["ProductCode(15)"] = SourceData.iloc[z]["Product Code"]
+            TemplateData["Description1(100)"] = SourceData.iloc[z]["Product Description"]
+            TemplateData["Description2(100)"] = SourceData.iloc[z]["Caption"]
+            
+                
+            TemplateData["Category(25)"] = SourceData.iloc[z]["Group Name"]
+            
+            TemplateData["SalesPrice1(Inc GST)"] = SourceData.iloc[z]["Sell Price 1"]
+            TemplateData["SalesPrice2(Inc GST)"] = SourceData.iloc[z]["Sell Price 2"]
+            TemplateData["SalesPrice3(Inc GST)"] = SourceData.iloc[z]["Sell Price 3"]
+            TemplateData["SalesPrice4(Inc GST)"] = SourceData.iloc[z]["Sell Price 4"]
+            TemplateData["SalesPrice5(Inc GST)"] = SourceData.iloc[z]["Sell Price 5"]
+            TemplateData["SalesPrice6(Inc GST)"] = SourceData.iloc[z]["Sell Price 6"]
        
-    #         TemplateData["Barcode1(30)"] = SourceData.iloc[z]["barcode"]
-    #         TemplateData["Barcode2(30)"] = SourceData.iloc[z]["barcode1"]
-    #         TemplateData["Barcode3(30)"] = SourceData.iloc[z]["barcode2"]
-    #         TemplateData["Barcode4(30)"] = SourceData.iloc[z]["barcode3"]
-    #         TemplateData["Barcode5(30)"] = SourceData.iloc[z]["barcode4"]
-    #         TemplateData["Barcode6(30)"] = SourceData.iloc[z]["barcode5"]
+            TemplateData["Barcode1(30)"] = SourceData.iloc[z]["barcode1"]
+            TemplateData["Barcode2(30)"] = SourceData.iloc[z]["barcode2"]
+            TemplateData["Barcode3(30)"] = SourceData.iloc[z]["barcode3"]
+            TemplateData["Barcode4(30)"] = SourceData.iloc[z]["barcode4"]
+            TemplateData["Barcode5(30)"] = SourceData.iloc[z]["barcode5"]
+            TemplateData["Barcode6(30)"] = SourceData.iloc[z]["barcode6"]
 
-    #         TemplateData["LastOrderPrice(Ex GST)"] = SourceData.iloc[z]["cost"]
+          
+            TemplateData["DeductStockQty1"] = SourceData.iloc[z]["Units Per Plu1"]
+            TemplateData["DeductStockQty2"] = SourceData.iloc[z]["Units Per Plu2"]
+            TemplateData["DeductStockQty3"] = SourceData.iloc[z]["Units Per Plu3"]
+            TemplateData["DeductStockQty4"] = SourceData.iloc[z]["Units Per Plu4"]
+            TemplateData["DeductStockQty5"] = SourceData.iloc[z]["Units Per Plu5"]
+            TemplateData["DeductStockQty6"] = SourceData.iloc[z]["Units Per Plu6"]
+           
+            TemplateData["Default Supplier Code (15)"] = SourceData.iloc[z]["Supplier Code"]
+            TemplateData["GSTRate"] = SourceData.iloc[z]["GST Rate"]
+
+            TemplateData["LastOrderPrice(Ex GST)"] = SourceData.iloc[z]["Last Buy Cost"]
+
+
 
         
-    #         if SourceData.iloc[z]["goods_tax"] == "FRE":
-    #             TemplateData["GSTRate"] = 0
-    #         elif SourceData.iloc[z]["goods_tax"] == "GST":
-    #             TemplateData["GSTRate"] = 10
 
-    #         TemplateData = TemplateData.to_frame()
-    #         TemplateData = TemplateData.transpose()
+
+
+            TemplateData = TemplateData.to_frame()
+            TemplateData = TemplateData.transpose()
                 
 
-    #         DDAExcelDataFrame = pd.concat([DDAExcelDataFrame, TemplateData],ignore_index=True)
+            DDAExcelDataFrame = pd.concat([DDAExcelDataFrame, TemplateData],ignore_index=True)
 
 
 
@@ -63,15 +82,107 @@ def convertToDDAExcel(SourceData,DDATemplate):
 
 
 
-def processBarcodes(productList,productBarcodeList):
+def processBarcodes(productList,prodproductCodeList):
     finalResult = pd.DataFrame()
+    finalResult["Product Code"]=""
+    finalResult["GST Rate"]=""
+    finalResult["Product Description"]=""
+    finalResult["Supplier Code"]=""
+    finalResult["Supplier Name"]=""
+    
+    finalResult["Caption"]=""
+    
+    finalResult["Group Name"]=""
+    finalResult["Group Name"]=""
+    finalResult["Department Number"]=""
+    
+    finalResult["Department Name"]=""
+    
+    finalResult["Sell Price 1"]=""
+    finalResult["Sell Price 2"]=""
+    finalResult["Sell Price 3"]=""
+    finalResult["Sell Price 4"]=""
+    finalResult["Sell Price 5"]=""
+    finalResult["Sell Price 6"]=""
+
+    finalResult["ItemDescription1"]=""
+    finalResult["ItemDescription2"]=""
+    finalResult["ItemDescription3"]=""
+    finalResult["ItemDescription4"]=""
+    finalResult["ItemDescription5"]=""
+    finalResult["ItemDescription6"]=""
+
+    
+    finalResult["Units Per Plu1"]=""
+    finalResult["Units Per Plu2"]=""
+    finalResult["Units Per Plu3"]=""
+    finalResult["Units Per Plu4"]=""
+    finalResult["Units Per Plu5"]=""
+    finalResult["Units Per Plu6"]=""
+
+
     finalResult["barcode1"]=""
     finalResult["barcode2"]=""
     finalResult["barcode3"]=""
     finalResult["barcode4"]=""
     finalResult["barcode5"]=""
+    finalResult["barcode6"]=""
+    finalResult["Last Buy Cost"]=""
+    
     z=0
-    #lenth=len(productList)
+    lenth=len(prodproductCodeList)
+    print(lenth)
+   
+
+    for z in range(len(prodproductCodeList)):
+        print(z ," / ",lenth, " (1)" )
+        TemplateData = prodproductCodeList.iloc[z]
+        
+        #print(TemplateData)
+        T1=productList[productList["Product Code"] == TemplateData['Product Code']]
+        #print(T1)
+        barCodeLength = len(T1)
+        
+        #print(barCodeLength)
+        if barCodeLength >0:
+            y=0
+            for y in range (barCodeLength):
+                if T1.iloc[y]["Plu"] !=TemplateData["Product Code"]:
+                    name="barcode"+ str(y+1)
+                    TemplateData[name]=T1.iloc[y]["Plu"]
+
+                    salesPriceName="Sell Price "+ str(y+1)
+                    TemplateData[salesPriceName]=T1.iloc[y]["Sell Price 1"]
+
+                    itemName="ItemDescription"+str(y+1)
+                    TemplateData[itemName]=T1.iloc[y]["Caption"]
+
+                    unitPerPluName="Units Per Plu"+str(y+1)
+                    TemplateData[unitPerPluName]=T1.iloc[y]["Units Per Plu"]
+
+        
+    
+        TemplateData["Product Code"]=T1.iloc[0]["Product Code"]
+        TemplateData["Product Description"]=T1.iloc[0]["Product Description"]
+
+        TemplateData["GST Rate"]=T1.iloc[0]["GST Rate"]
+
+        TemplateData["Supplier Code"]=T1.iloc[0]["Supplier Code"]
+        TemplateData["Supplier Name"]=T1.iloc[0]["Supplier Name"]
+        
+        TemplateData["Caption"]=T1.iloc[0]["Caption"]
+        
+        TemplateData["Group Name"]=T1.iloc[0]["Group Name"]
+        TemplateData["Group Number"]=T1.iloc[0]["Group Number"]
+        TemplateData["Department Name"]=T1.iloc[0]["Department Name"]
+        TemplateData["Department Number"]=T1.iloc[0]["Department Number"]
+        TemplateData["Last Buy Cost"]=T1.iloc[0]["Last Buy Cost"]
+    
+
+        TemplateData = TemplateData.to_frame()
+        TemplateData = TemplateData.transpose()
+        finalResult = pd.concat([finalResult, TemplateData],ignore_index=True)
+
     # for z in range(len(productList)):
     #     print(z ," / ",lenth, " (1)" )
     #     TemplateData = productList.iloc[z]
@@ -79,7 +190,7 @@ def processBarcodes(productList,productBarcodeList):
         
     #     T1= pd.DataFrame()
         
-    #     T1=productBarcodeList[productBarcodeList["stock_id"] == TemplateData['stock_id']]
+    #     T1=prodproductCodeList[prodproductCodeList["stock_id"] == TemplateData['stock_id']]
   
     #     barCodeLength = len(T1)
         
@@ -109,13 +220,18 @@ def processProductWithBarCode(connect_string):
 
   
 
-    productCodeListQuery = "SELECT [ProductList].[Product Code] FROM [ProductList] order by [Product Code]"
+    productCodeListQuery = "SELECT [ProductList].[Product Code] FROM [ProductList] group by [Product Code] "
     productListQuery = "SELECT [ProductList].* FROM [ProductList] order by [Product Code]"
 
    
 
     prodproductCodeList = pd.read_sql_query(productCodeListQuery, PassSQLServerConnection)
+    
     productListQuery =  pd.read_sql_query(productListQuery, PassSQLServerConnection)
+
+    # productListQuery=productListQuery.astype(str)
+    # prodproductCodeList=prodproductCodeList.astype(str)
+
 
     result=processBarcodes(productListQuery,prodproductCodeList)
     print("total rows: ")
@@ -138,7 +254,7 @@ def processProductWithBarCode(connect_string):
         
 
     DDADataTemplete = pd.read_excel('ItemImportFormat.xls', index_col=None,dtype = str)
-    #DDAExcel=DDADataTemplete.astype(str)
+    DDAExcel=DDADataTemplete.astype(str)
     DDAExcel =DDADataTemplete
 
     DDAExcel = convertToDDAExcel(result,DDAExcel)
@@ -193,7 +309,7 @@ def inforProcess(DBSource,DBUsername,DBPassword,DBName):
 class App:
     def __init__(self, root):
         #setting title
-        root.title("AUPOS Converter")
+        root.title("PT Converter")
         #setting window size
         width=600
         height=500
@@ -277,7 +393,7 @@ class App:
         DB_Name_Box["fg"] = "#333333"
         DB_Name_Box["justify"] = "left"    
         DB_Name_Box.place(x=190,y=260,width=275,height=30)
-        DB_Name_Box.insert(0,'ProductList')
+        DB_Name_Box.insert(0,'PTDB')
  
 
 
