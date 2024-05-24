@@ -144,7 +144,7 @@ def processBarcodes(productList,prodproductCodeList):
         barCodeLength = len(T1)
         
         #print(barCodeLength)
-        if barCodeLength >0:
+        if barCodeLength > 0:
             y=0
             for y in range (barCodeLength):
                 if T1.iloc[y]["Plu"] !=TemplateData["Product Code"]:
@@ -160,6 +160,20 @@ def processBarcodes(productList,prodproductCodeList):
                     unitPerPluName="Units Per Plu"+str(y+1)
                     TemplateData[unitPerPluName]=T1.iloc[y]["Units Per Plu"]
 
+                elif T1.iloc[y]["Plu"] ==TemplateData["Product Code"]:
+
+                    name="barcode"+ str(y+1)
+                    TemplateData[name]=str(T1.iloc[y]["Plu"])+"-1"
+
+                    salesPriceName="Sell Price "+ str(y+1)
+                    TemplateData[salesPriceName]=T1.iloc[y]["Sell Price 1"]
+
+                    itemName="ItemDescription"+str(y+1)
+                    TemplateData[itemName]=T1.iloc[y]["Caption"]
+
+                    unitPerPluName="Units Per Plu"+str(y+1)
+                    TemplateData[unitPerPluName]=T1.iloc[y]["Units Per Plu"]
+                   
         
     
         TemplateData["Product Code"]=T1.iloc[0]["Product Code"]
